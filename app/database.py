@@ -35,7 +35,8 @@ def init_db():
         student_id INT NOT NULL,
         date DATE NOT NULL,
         status ENUM('Present', 'Absent') DEFAULT 'Present',
-        FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
+        FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+        UNIQUE KEY unique_attendance (student_id, date)
     )
     """)
 
