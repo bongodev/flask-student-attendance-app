@@ -15,8 +15,12 @@ def mark_attendance(student_id, date, status="Present"):
     """Mark attendance for a student."""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO attendance (student_id, date, status) VALUES (%s, %s, %s)", 
-                   (student_id, date, status))
+    cursor.execute("""
+            INSERT INTO attendance (student_id, date, status) 
+            VALUES (%s, %s, %s)
+            ON DUPLICATE KEY UPDATE status = VALUES(status)
+        """, (student_id, date, status))
+
     conn.commit()
     cursor.close()
     conn.close()
